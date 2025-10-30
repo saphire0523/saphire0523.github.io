@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>方糖爱您</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #f4faf2;
+            font-family: Arial, sans-serif;
+        }
+        
+        .tip-button {
+            padding: 15px 30px;
+            font-size: 18px;
+            background-color: #9afb3a;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        
+        .tip-button:hover {
+            background-color: #9afb3a;
+        }
+        
+        .tip-button:active {
+            transform: scale(0.98);
+        }
+        
+        .tip-window {
+            position: fixed;
+            width: 250px;
+            height: 60px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            font-size: 16px;
+            font-weight: bold;
+            text-align: center;
+            padding: 10px;
+            z-index: 1000;
+            animation: fadeIn 0.3s ease;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: scale(0.9); }
+            to { opacity: 1; transform: scale(1); }
+        }
+    </style>
+</head>
+<body>
+    <button class="tip-button" id="startBtn">点这里✧* (ˊᗜˋ*) ✧*</button>
+
+    <script>
+        document.getElementById('startBtn').addEventListener('click', function() {
+            // 提示文字列表
+            const tips = [
+                "多喝水哦~ 💧", "保持微笑呀 😊", "每天都要元气满满 💪",
+                "记得吃水果 🍎", "保持好心情 🌈", "好好爱自己 ❤️",
+                "我想您了! 💕", "梦想成真 ✨", "期待下一次见面 👋",
+                "金榜题名 🎓", "顺顺利利 🍀", "早点休息 🌙",
+                "愿所有烦恼都消失 😌", "别熬夜 😴", "今天过得开心嘛 😄",
+                "天冷了，多穿衣服 🧥", "方糖喜欢您 ❤️", "永远期待见面 💖",
+                "HAPPY HALLOWEEN! 🎃", "方糖会在公馆等待您 🏰"
+            ];
+
+            // 背景颜色数组
+            const bgColors = [
+                "lightpink", "skyblue", "lightgreen", "lavender",
+                "lightyellow", "plum", "coral", "bisque",
+                "aquamarine", "mistyrose", "honeydew",
+                "lavenderblush", "oldlace"
+            ];
+
+            // 禁用按钮
+            this.disabled = true;
+            this.textContent = "love love...";
+
+            const startTime = Date.now();
+            const timeLimit = 15000; // 15秒
+            
+            // 创建弹窗函数
+            function createTipWindow() {
+                // 获取屏幕尺寸
+                const screenWidth = window.innerWidth;
+                const screenHeight = window.innerHeight;
+                
+                // 窗口尺寸
+                const windowWidth = 250;
+                const windowHeight = 60;
+                
+                // 随机位置
+                const x = Math.floor(Math.random() * (screenWidth - windowWidth));
+                const y = Math.floor(Math.random() * (screenHeight - windowHeight));
+                
+                // 随机选择提示和背景颜色
+                const tip = tips[Math.floor(Math.random() * tips.length)];
+                const bgColor = bgColors[Math.floor(Math.random() * bgColors.length)];
+                
+                // 创建弹窗元素
+                const tipWindow = document.createElement('div');
+                tipWindow.className = 'tip-window';
+                tipWindow.style.left = `${x}px`;
+                tipWindow.style.top = `${y}px`;
+                tipWindow.style.backgroundColor = bgColor;
+                tipWindow.textContent = tip;
+                
+                // 添加到页面
+                document.body.appendChild(tipWindow);
+                
+                // 设置弹窗自动关闭
+                setTimeout(() => {
+                    if (tipWindow.parentNode) {
+                        tipWindow.parentNode.removeChild(tipWindow);
+                    }
+                }, 5000); // 5秒后自动关闭
+            }
+
+            // 创建弹窗的定时器
+            const timerId = setInterval(() => {
+                createTipWindow();
+                
+                // 检查是否超过时间限制
+                if (Date.now() - startTime > timeLimit) {
+                    clearInterval(timerId);
+                    document.getElementById('startBtn').disabled = false;
+                    document.getElementById('startBtn').textContent = "点这里✧* (ˊᗜˋ*) ✧*";
+                }
+            }, 50); // 每50毫秒创建一个弹窗
+        });
+    </script>
+</body>
+</html>
